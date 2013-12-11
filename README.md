@@ -12,9 +12,7 @@ Tacoma needs a special file `.tacoma.yml` in your home directory.  It can create
 
      tacoma install 
     
-
 The format of the `.tacoma.yml` file is pretty straighforward
-
 
      project:
        aws_identity_file: "/path/to/pem/file/my_project.pem"
@@ -27,7 +25,6 @@ The format of the `.tacoma.yml` file is pretty straighforward
        aws_access_key_id: "ANOTHERACCESSKEYID"
        repo: "$HOME/projects/another_project"
 
-
 Once setup with a file like this, you can run 
 
      tacoma list
@@ -36,12 +33,14 @@ And it will list all the configured entries.  Running
 
      tacoma switch project
 
-Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID credential environment variables, **that you will need to copy and paste in your terminal**, and will run ssh-add to the AWS identity file pointed to by the corresponding entry.  
-
-As a convenience, the $REPO variable is also included so you can quickly run `cd $REPO` and put yourself on your working copy.
+Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID credential environment variables, will add the specified identity file into the SSH agent, and will generate configuration files for the different available tools.  At the time of this release the only provider is Fog, which should work with Capistrano's capify-ec2.
 
 ## TODO
 
-- Avoid copying and pasting the `export` sentences --maybe running with source? 
 - Check for errors in the `tacoma.yml` file
+- Add other AWS tool providers (Knife, Boto, AWS cli, S3cmd, ...)
 
+
+## THANKS
+
+This tool is shamelessly inspired in Raul Murciano's [rack-generator](https://github.com/raul/rack-generator)
