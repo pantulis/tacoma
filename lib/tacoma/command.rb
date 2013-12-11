@@ -54,10 +54,12 @@ module Tacoma
       @aws_access_key_id = Tool.aws_access_key_id
       @repo = Tool.repo 
        
-      # load fog configuration
-      fog_template_path = Pathname.new("#{self.class.source_root}/../template/fog").realpath.to_s
-      fog_file_path = File.join(Dir.home,".fog")
-      template fog_template_path, fog_file_path, :force => true
+      # set configurations for tools
+      {fog: '.fog', boto: '.boto'}.each do |tool, config_path|
+        template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
+        file_path = File.join(Dir.home, config_path)
+        template template_path, file_path, :force => true
+      end
       
       system("ssh-add #{@aws_identity_file}")
     end

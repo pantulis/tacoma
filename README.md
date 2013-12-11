@@ -33,12 +33,17 @@ And it will list all the configured entries.  Running
 
      tacoma switch project
 
-Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID credential environment variables, will add the specified identity file into the SSH agent, and will generate configuration files for the different available tools.  At the time of this release the only provider is Fog, which should work with Capistrano's capify-ec2.
+Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID credential environment variables, will add the specified identity file into the SSH agent, and will generate configuration files for the supported tools, which at this time are
+
+- [Fog](https://github.com/fog/fog), which should work with Capistrano's capify-ec2.
+- [Boto](https://github.com/boto/boto)
+
 
 ## TODO
 
 - Check for errors in the `tacoma.yml` file
-- Add other AWS tool providers (Knife, Boto, AWS cli, S3cmd, ...)
+- Add other AWS tool providers (Knife, AWS cli, S3cmd, ...)
+- Honor the different optional environment vars for the different config files (i.e `FOG_RC`)
 
 
 ## THANKS
