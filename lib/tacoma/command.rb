@@ -70,8 +70,15 @@ module Tacoma
       Dir.chdir `echo #{@repo}`.strip
       puts "Welcome to the tacoma shell"
       shell = `echo $SHELL`
-      shell.gsub!('\n','')
-      system("#{shell} --login")
+      shell = shell.split('/').last.gsub(/\n/,'')
+      options =
+        case shell
+        when 'zsh'
+          ''
+        else
+          '--login'
+        end
+      system("#{shell} #{options}")
       Process.kill(:SIGQUIT, Process.getpgid(Process.ppid))
     end
 
