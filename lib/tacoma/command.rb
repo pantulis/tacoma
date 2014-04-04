@@ -69,7 +69,9 @@ module Tacoma
       switch(environment)
       Dir.chdir `echo #{@repo}`.strip
       puts "Welcome to the tacoma shell"
-      system("bash --login")
+      shell = `echo $SHELL`
+      shell.gsub!('\n','')
+      system("#{shell} --login")
       Process.kill(:SIGQUIT, Process.getpgid(Process.ppid))
     end
 
@@ -91,4 +93,3 @@ module Tacoma
   end
 
 end
-
