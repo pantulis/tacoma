@@ -69,8 +69,7 @@ module Tacoma
       switch(environment)
       Dir.chdir `echo #{@repo}`.strip
       puts "Welcome to the tacoma shell"
-      shell = `echo $SHELL`
-      shell = shell.split('/').last.gsub(/\n/,'')
+      shell = ENV['SHELL'].split('/').last
       options =
         case shell
         when 'zsh'
