@@ -55,7 +55,7 @@ module Tacoma
       @repo = Tool.repo
 
       # set configurations for tools
-      {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg'}.each do |tool, config_path|
+      {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg', route53: '.route53'}.each do |tool, config_path|
         template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
         file_path = File.join(Dir.home, config_path)
         template template_path, file_path, :force => true
