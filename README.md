@@ -39,7 +39,7 @@ Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_I
 - [Boto](https://github.com/boto/boto)
 - [s3cmd](https://github.com/s3tools/s3cmd)
 
-## BASH COMPLETION
+## Bash Completion
 
 There's an user contributed script for bash completion feature. To use it simply get from the `/contrib/` path and source it in your bash session (after rbenv gets sourced if it is there)
 
