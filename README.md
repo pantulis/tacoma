@@ -10,8 +10,8 @@ Simple command-line tool for managing AWS credentials across different projects 
 
 Tacoma needs a special file `.tacoma.yml` in your home directory.  It can create a sample for you with
 
-     tacoma install 
-    
+     tacoma install
+
 The format of the `.tacoma.yml` file is pretty straighforward
 
      project:
@@ -25,7 +25,7 @@ The format of the `.tacoma.yml` file is pretty straighforward
        aws_access_key_id: "ANOTHERACCESSKEYID"
        repo: "$HOME/projects/another_project"
 
-Once setup with a file like this, you can run 
+Once setup with a file like this, you can run
 
      tacoma list
 
