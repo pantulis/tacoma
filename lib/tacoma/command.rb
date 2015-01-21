@@ -21,7 +21,7 @@ module Tacoma
         config = Tool.config
         if config.keys.include?(environment) == false
           puts "Cannot find #{environment} key, check your YAML config file"
-          return
+          return false
         end
 
         if config[environment]
@@ -48,20 +48,20 @@ module Tacoma
     desc "switch ENVIRONMENT", "Loads AWS environment vars"
     def switch(environment)
 
-      Tool.load_vars(environment)
-      @aws_identity_file = Tool.aws_identity_file
-      @aws_secret_access_key = Tool.aws_secret_access_key
-      @aws_access_key_id = Tool.aws_access_key_id
-      @repo = Tool.repo
+      if Tool.load_vars(environment)
+        @aws_identity_file = Tool.aws_identity_file
+        @aws_secret_access_key = Tool.aws_secret_access_key
+        @aws_access_key_id = Tool.aws_access_key_id
+        @repo = Tool.repo
 
-      # set configurations for tools
-      {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg', route53: '.route53'}.each do |tool, config_path|
-        template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
-        file_path = File.join(Dir.home, config_path)
-        template template_path, file_path, :force => true
+        # set configurations for tools
+        {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg', route53: '.route53'}.each do |tool, config_path|
+          template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
+          file_path = File.join(Dir.home, config_path)
+          template template_path, file_path, :force => true
+        end
+        system("ssh-add #{@aws_identity_file}")
       end
-
-      system("ssh-add #{@aws_identity_file}")
     end
 
     desc "cd ENVIRONMENT", "Change directory to the project path"
