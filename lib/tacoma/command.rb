@@ -61,24 +61,28 @@ module Tacoma
           template template_path, file_path, :force => true
         end
         system("ssh-add #{@aws_identity_file}")
+        return true
+      else
+        return false
       end
     end
 
     desc "cd ENVIRONMENT", "Change directory to the project path"
     def cd(environment)
-      switch(environment)
-      Dir.chdir `echo #{@repo}`.strip
-      puts "Welcome to the tacoma shell"
-      shell = ENV['SHELL'].split('/').last
-      options =
-        case shell
-        when 'zsh'
-          ''
-        else
-          '--login'
-        end
-      system("#{shell} #{options}")
-      Process.kill(:SIGQUIT, Process.getpgid(Process.ppid))
+      if switch(environment)
+        Dir.chdir `echo #{@repo}`.strip
+        puts "Welcome to the tacoma shell"
+        shell = ENV['SHELL'].split('/').last
+        options =
+          case shell
+          when 'zsh'
+            ''
+          else
+            '--login'
+          end
+        system("#{shell} #{options}")
+        Process.kill(:SIGQUIT, Process.getpgid(Process.ppid))
+      end
     end
 
     desc "install", "Create a sample ~/.tacoma.yml file"
