@@ -39,6 +39,7 @@ Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_I
 - [Boto](https://github.com/boto/boto)
 - [s3cmd](https://github.com/s3tools/s3cmd)
 - [route53](https://github.com/pcorliss/ruby_route_53)
+- [aws cli](https://github.com/aws/aws-cli)
 
 ## Bash Completion
 
