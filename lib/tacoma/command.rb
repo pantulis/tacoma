@@ -48,6 +48,7 @@ module Tacoma
     desc "switch ENVIRONMENT", "Loads AWS environment vars"
     def switch(environment)
 
+
       if Tool.load_vars(environment)
         @aws_identity_file = Tool.aws_identity_file
         @aws_secret_access_key = Tool.aws_secret_access_key
@@ -55,7 +56,7 @@ module Tacoma
         @repo = Tool.repo
 
         # set configurations for tools
-        {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg', route53: '.route53'}.each do |tool, config_path|
+        {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg', route53: '.route53', aws_credentials: '.aws/credentials'}.each do |tool, config_path|
           template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
           file_path = File.join(Dir.home, config_path)
           template template_path, file_path, :force => true
