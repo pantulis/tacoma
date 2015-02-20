@@ -41,6 +41,13 @@ Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_I
 - [route53](https://github.com/pcorliss/ruby_route_53)
 - [aws cli](https://github.com/aws/aws-cli)
 
+Running tacoma switch with the --with-exports option will also echo shell export sentences for the most common incarnations of the AWS env vars.
+
+     tacoma version
+
+Will display the current tacoma version and list all available configuration templates (providers).
+
+
 ## Bash Completion
 
 There's an user contributed script for bash completion feature. To use it simply get from the `/contrib/` path and source it in your bash session (after rbenv gets sourced if it is there)
