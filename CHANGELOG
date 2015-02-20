@@ -1,0 +1,3 @@
+1.0.9 
+	- Added 'tacoma version' command, which will display version and available providers.
+	- Added '--with-exports' to the 'switch' command, which will echo the export commands to set the AWS env vars.

@@ -45,9 +45,25 @@ module Tacoma
       end
     end
 
-    desc "switch ENVIRONMENT", "Loads AWS environment vars"
-    def switch(environment)
+    TOOLS = {fog: '.fog', 
+             boto: '.boto', 
+             s3cfg: '.s3cfg', 
+             route53: '.route53', 
+             aws_credentials: '.aws/credentials'}
 
+    desc "version", "Displays current tacoma version"
+    def version
+      puts "tacoma, version #{Tacoma::VERSION}"
+      puts "Configuration templates available for:"
+      TOOLS.each do |tool, config_path|
+        puts "   #{tool.to_s} => '~/#{config_path}'"
+      end
+    end
+
+    desc "switch ENVIRONMENT", "Prepares AWS config files for the providers. --with-exports will output environment variables"
+    option :'with-exports'
+    
+    def switch(environment)
 
       if Tool.load_vars(environment)
         @aws_identity_file = Tool.aws_identity_file
@@ -56,12 +72,19 @@ module Tacoma
         @repo = Tool.repo
 
         # set configurations for tools
-        {fog: '.fog', boto: '.boto', s3cfg: '.s3cfg', route53: '.route53', aws_credentials: '.aws/credentials'}.each do |tool, config_path|
+        TOOLS.each do |tool, config_path|
           template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
           file_path = File.join(Dir.home, config_path)
           template template_path, file_path, :force => true
         end
+        
         system("ssh-add #{@aws_identity_file}")
+        if options[:'with-exports']
+          puts "export AWS_SECRET_ACCESS_KEY=#{@aws_secret_access_key}"
+          puts "export AWS_SECRET_KEY=#{@aws_secret_access_key}"
+          puts "export AWS_ACCESS_KEY=#{@aws_access_key_id}"
+          puts "export AWS_ACCESS_KEY_ID=#{@aws_access_key_id}"
+        end
         return true
       else
         return false
