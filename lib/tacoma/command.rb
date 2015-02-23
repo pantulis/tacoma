@@ -31,6 +31,23 @@ module Tacoma
           @repo = config[environment]['repo']
         end
       end
+      
+      # Assume there is a ~/.aws/credentials file with a valid format
+      def current_environment
+        current_filename = File.join(Dir.home, ".aws/credentials")
+        File.open(current_filename).each do |line|
+          if /aws_access_key_id/ =~ line
+            current_access_key_id = line[20..-2] # beware the CRLF
+            config = Tool.config
+            for key in config.keys
+              if config[key]['aws_access_key_id'] == current_access_key_id
+                return "#{key}"
+              end
+            end
+          end
+        end  
+        nil
+      end
     end
   end
 
@@ -60,6 +77,12 @@ module Tacoma
       end
     end
 
+    desc "current", "Displays current loaded tacoma environment"
+    def current
+      puts Tool.current_environment
+      return true
+    end
+    
     desc "switch ENVIRONMENT", "Prepares AWS config files for the providers. --with-exports will output environment variables"
     option :'with-exports'
     
