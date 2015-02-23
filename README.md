@@ -47,6 +47,9 @@ Running tacoma switch with the --with-exports option will also echo shell export
 
 Will display the current tacoma version and list all available configuration templates (providers).
 
+     tacoma current
+     
+Will display the currently active tacoma environment.  
 
 ## Bash Completion
 
