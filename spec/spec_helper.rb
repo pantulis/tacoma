@@ -23,5 +23,17 @@ module Tacoma
       end
       result
     end
+
+    def aws_credentials_file
+      File.join(ENV['HOME'], '.aws', 'credentials')
+    end
+
+    def aws_credential_value(key)
+      File.foreach(aws_credentials_file) do |line|
+        if line.match(/#{key} = (?<value>\w+)$/)
+          return Regexp.last_match(:value)
+        end
+      end 
+    end
   end
 end
