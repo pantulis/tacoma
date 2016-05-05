@@ -143,9 +143,9 @@ module Tacoma
       end
     end
 
-  def self.source_root
-    File.dirname(__FILE__)
-  end
+    def self.source_root
+      File.dirname(__FILE__)
+    end
 
   end
 

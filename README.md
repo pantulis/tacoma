@@ -33,7 +33,7 @@ And it will list all the configured entries.  Running
 
      tacoma switch project
 
-Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID credential environment variables, will add the specified identity file into the SSH agent, and will generate configuration files for the supported tools, which at this time are
+Will add the specified identity file into the SSH agent, and will generate configuration files for the supported tools, which at this time are
 
 - [Fog](https://github.com/fog/fog), which should work with Capistrano's capify-ec2.
 - [Boto](https://github.com/boto/boto)
@@ -41,7 +41,7 @@ Will display the export commands for the AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_I
 - [route53](https://github.com/pcorliss/ruby_route_53)
 - [aws cli](https://github.com/aws/aws-cli)
 
-Running tacoma switch with the --with-exports option will also echo shell export sentences for the most common incarnations of the AWS env vars.
+Running `tacoma switch` with the `--with-exports` option will also echo shell export sentences for the most common incarnations of the AWS env vars.
 
      tacoma version
 
