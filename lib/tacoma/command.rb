@@ -5,12 +5,18 @@ require 'pathname'
 
 module Tacoma
 
+
+  
   module Tool
+
+
     class << self
       attr_accessor :aws_identity_file
       attr_accessor :aws_secret_access_key
       attr_accessor :aws_access_key_id
       attr_accessor :repo
+
+      include CacheEnvironment 
 
       def config
         filename = File.join(Dir.home, ".tacoma.yml")
@@ -34,19 +40,7 @@ module Tacoma
       
       # Assume there is a ~/.aws/credentials file with a valid format
       def current_environment
-        current_filename = File.join(Dir.home, ".aws/credentials")
-        File.open(current_filename).each do |line|
-          if /aws_access_key_id/ =~ line
-            current_access_key_id = line[20..-2] # beware the CRLF
-            config = Tool.config
-            for key in config.keys
-              if config[key]['aws_access_key_id'] == current_access_key_id
-                return "#{key}"
-              end
-            end
-          end
-        end  
-        nil
+         read_environment_from_cache
       end
     end
   end
@@ -54,6 +48,8 @@ module Tacoma
   class Command < Thor
 
     include Thor::Actions
+
+    include CacheEnvironment  
 
     desc "list", "Lists all known AWS environments"
     def list
@@ -94,6 +90,8 @@ module Tacoma
         @aws_access_key_id = Tool.aws_access_key_id
         @repo = Tool.repo
 
+
+
         # set configurations for tools
         TOOLS.each do |tool, config_path|
           template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
@@ -108,6 +106,9 @@ module Tacoma
           puts "export AWS_ACCESS_KEY=#{@aws_access_key_id}"
           puts "export AWS_ACCESS_KEY_ID=#{@aws_access_key_id}"
         end
+        
+        update_environment_to_cache(environment)
+        
         return true
       else
         return false
