@@ -24,23 +24,29 @@ module Tacoma
       end
 
       def load_vars(environment)
-        config = Tool.config
-        if config.keys.include?(environment) == false
-          puts "Cannot find #{environment} key, check your YAML config file"
-          return false
-        end
+        return false unless exists?(environment)
 
-        if config[environment]
-          @aws_identity_file = config[environment]['aws_identity_file']
-          @aws_secret_access_key = config[environment]['aws_secret_access_key']
-          @aws_access_key_id = config[environment]['aws_access_key_id']
-          @repo = config[environment]['repo']
-        end
+        config = Tool.config  
+        @aws_identity_file = config[environment]['aws_identity_file']
+        @aws_secret_access_key = config[environment]['aws_secret_access_key']
+        @aws_access_key_id = config[environment]['aws_access_key_id']
+        @repo = config[environment]['repo']
       end
       
       # Assume there is a ~/.aws/credentials file with a valid format
       def current_environment
          read_environment_from_cache
+      end
+
+      private
+      def exists?(environment)
+        config = Tool.config
+        if config.keys.include?(environment) == false
+          puts "Cannot find #{environment} key, check your YAML config file"
+          return false
+        else
+          return true
+        end
       end
     end
   end
