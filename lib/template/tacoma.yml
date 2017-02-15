@@ -11,10 +11,12 @@ my_first_project:
   aws_identity_file: "/path/to/pem/file/my_project.pem"
   aws_secret_access_key: "YOURSECRETACCESSKEY"
   aws_access_key_id: "YOURACCESSKEYID"
+  region: 'REGION'  
   repo: "$HOME/projects/my_first_project"
 
 my_second_project:
   aws_identity_file: "/path/to/pem/file/my_second_project.pem"
   aws_secret_access_key: "ANOTHERSECRETACCESSKEY"
   aws_access_key_id: "ANOTHERACCESSKEYID"
+  region: 'REGION'
   repo: "/usr/share/projects/my_second_project"
