@@ -8,12 +8,13 @@ module Tacoma
 
   
   module Tool
-
+    DEFAULT_AWS_REGION = 'eu-west-1'
 
     class << self
       attr_accessor :aws_identity_file
       attr_accessor :aws_secret_access_key
       attr_accessor :aws_access_key_id
+      attr_accessor :region
       attr_accessor :repo
 
       include CacheEnvironment 
@@ -30,6 +31,7 @@ module Tacoma
         @aws_identity_file = config[environment]['aws_identity_file']
         @aws_secret_access_key = config[environment]['aws_secret_access_key']
         @aws_access_key_id = config[environment]['aws_access_key_id']
+        @region = config[environment]['region'] || DEFAULT_AWS_REGION
         @repo = config[environment]['repo']
       end
       
@@ -94,6 +96,7 @@ module Tacoma
         @aws_identity_file = Tool.aws_identity_file
         @aws_secret_access_key = Tool.aws_secret_access_key
         @aws_access_key_id = Tool.aws_access_key_id
+        @region = Tool.region
         @repo = Tool.repo
 
 
@@ -111,6 +114,7 @@ module Tacoma
           puts "export AWS_SECRET_KEY=#{@aws_secret_access_key}"
           puts "export AWS_ACCESS_KEY=#{@aws_access_key_id}"
           puts "export AWS_ACCESS_KEY_ID=#{@aws_access_key_id}"
+          puts "export AWS_DEFAULT_REGION=#{@region}"
         end
         
         update_environment_to_cache(environment)
