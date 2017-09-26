@@ -33,6 +33,7 @@ module Tacoma
         @aws_access_key_id = config[environment]['aws_access_key_id']
         @region = config[environment]['region'] || DEFAULT_AWS_REGION
         @repo = config[environment]['repo']
+        return @aws_secret_access_key.length && @aws_access_key_id.length
       end
       
       # Assume there is a ~/.aws/credentials file with a valid format
