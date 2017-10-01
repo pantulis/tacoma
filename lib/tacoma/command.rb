@@ -33,6 +33,7 @@ module Tacoma
         @aws_access_key_id = config[environment]['aws_access_key_id']
         @region = config[environment]['region'] || DEFAULT_AWS_REGION
         @repo = config[environment]['repo']
+        validate_vars
       end
       
       # Assume there is a ~/.aws/credentials file with a valid format
@@ -41,6 +42,18 @@ module Tacoma
       end
 
       private
+
+      # shows error message if any attr is missing
+      # return false if any attr is missing to exit the program
+      def validate_vars
+        errors = self.instance_variables.map do |var|
+          next unless instance_variable_get(var).to_s.empty?
+          "Cannot find #{var} key, check your YAML config file."
+        end.compact
+        puts errors.join("\n") if errors
+        errors.empty?
+      end
+
       def exists?(environment)
         config = Tool.config
         if config.keys.include?(environment) == false
