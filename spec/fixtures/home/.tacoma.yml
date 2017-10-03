@@ -1,0 +1,11 @@
+first_project:
+  aws_identity_file: "/path/to/pem/file/first_project.pem"
+  aws_secret_access_key: "FIRSTPROJECTSECRETACCESSKEY"
+  aws_access_key_id: "FIRSTPROJECTACCESSKEYID"
+  repo: "$HOME/projects/first_project"
+
+second_project:
+  aws_identity_file: "/path/to/pem/file/second_project.pem"
+  aws_secret_access_key: "SECONDPROJECTSECRETACCESSKEY"
+  aws_access_key_id: "SECONDPROJECTACCESSKEYID"
+  repo: "$HOME/projects/second_project"

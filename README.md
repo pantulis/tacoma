@@ -1,4 +1,8 @@
+[travis]: https://travis-ci.org/nando/tacoma
+
 # Tacoma
+
+[![Build Status](https://travis-ci.org/nando/tacoma.svg?branch=master)][travis]
 
 Simple command-line tool for managing AWS credentials across different projects and tools.
 

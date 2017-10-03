@@ -101,7 +101,7 @@ module Tacoma
     end
     
     desc "switch ENVIRONMENT", "Prepares AWS config files for the providers. --with-exports will output environment variables"
-    option :'with-exports'
+    option :'with-exports', type: :boolean
     
     def switch(environment)
 
