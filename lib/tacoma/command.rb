@@ -2,13 +2,9 @@ require 'yaml'
 require 'thor'
 require 'pathname'
 
-
 module Tacoma
-
-
-  
   module Tool
-    DEFAULT_AWS_REGION = 'eu-west-1'
+    DEFAULT_AWS_REGION = 'eu-west-1'.freeze
 
     class << self
       attr_accessor :aws_identity_file
@@ -17,17 +13,17 @@ module Tacoma
       attr_accessor :region
       attr_accessor :repo
 
-      include CacheEnvironment 
+      include CacheEnvironment
 
       def config
-        filename = File.join(Dir.home, ".tacoma.yml")
-        return YAML::load_file(filename)
+        filename = File.join(Dir.home, '.tacoma.yml')
+        YAML.load_file(filename)
       end
 
       def load_vars(environment)
         return false unless exists?(environment)
 
-        config = Tool.config  
+        config = Tool.config
         @aws_identity_file = config[environment]['aws_identity_file']
         @aws_secret_access_key = config[environment]['aws_secret_access_key']
         @aws_access_key_id = config[environment]['aws_access_key_id']
@@ -35,10 +31,10 @@ module Tacoma
         @repo = config[environment]['repo']
         validate_vars
       end
-      
+
       # Assume there is a ~/.aws/credentials file with a valid format
       def current_environment
-         read_environment_from_cache
+        read_environment_from_cache
       end
 
       private
@@ -46,7 +42,7 @@ module Tacoma
       # shows error message if any attr is missing
       # return false if any attr is missing to exit the program
       def validate_vars
-        errors = self.instance_variables.map do |var|
+        errors = instance_variables.map do |var|
           next unless instance_variable_get(var).to_s.empty?
           "Cannot find #{var} key, check your YAML config file."
         end.compact
@@ -67,44 +63,42 @@ module Tacoma
   end
 
   class Command < Thor
-
     include Thor::Actions
 
-    include CacheEnvironment  
+    include CacheEnvironment
 
-    desc "list", "Lists all known AWS environments"
+    desc 'list', 'Lists all known AWS environments'
     def list
       Tool.config.keys.each do |key|
         puts key
       end
     end
 
-    TOOLS = {fog: '.fog', 
-             boto: '.boto', 
-             s3cfg: '.s3cfg', 
-             route53: '.route53', 
-             aws_credentials: '.aws/credentials'}
+    TOOLS = { fog: '.fog',
+              boto: '.boto',
+              s3cfg: '.s3cfg',
+              route53: '.route53',
+              aws_credentials: '.aws/credentials' }.freeze
 
-    desc "version", "Displays current tacoma version"
+    desc 'version', 'Displays current tacoma version'
     def version
       puts "tacoma, version #{Tacoma::VERSION}"
-      puts "Configuration templates available for:"
+      puts 'Configuration templates available for:'
       TOOLS.each do |tool, config_path|
-        puts "   #{tool.to_s} => '~/#{config_path}'"
+        puts "   #{tool} => '~/#{config_path}'"
       end
     end
 
-    desc "current", "Displays current loaded tacoma environment"
+    desc 'current', 'Displays current loaded tacoma environment'
     def current
       puts Tool.current_environment
-      return true
+      true
     end
-    
-    desc "switch ENVIRONMENT", "Prepares AWS config files for the providers. --with-exports will output environment variables"
-    option :'with-exports'
-    
-    def switch(environment)
 
+    desc 'switch ENVIRONMENT', 'Prepares AWS config files for the providers. --with-exports will output environment variables'
+    option :'with-exports'
+
+    def switch(environment)
       if Tool.load_vars(environment)
         @aws_identity_file = Tool.aws_identity_file
         @aws_secret_access_key = Tool.aws_secret_access_key
@@ -112,15 +106,13 @@ module Tacoma
         @region = Tool.region
         @repo = Tool.repo
 
-
-
         # set configurations for tools
         TOOLS.each do |tool, config_path|
           template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
           file_path = File.join(Dir.home, config_path)
-          template template_path, file_path, :force => true
+          template template_path, file_path, force: true
         end
-        
+
         system("ssh-add #{@aws_identity_file}")
         if options[:'with-exports']
           puts "export AWS_SECRET_ACCESS_KEY=#{@aws_secret_access_key}"
@@ -129,20 +121,20 @@ module Tacoma
           puts "export AWS_ACCESS_KEY_ID=#{@aws_access_key_id}"
           puts "export AWS_DEFAULT_REGION=#{@region}"
         end
-        
+
         update_environment_to_cache(environment)
-        
-        return true
+
+        true
       else
-        return false
+        false
       end
     end
 
-    desc "cd ENVIRONMENT", "Change directory to the project path"
+    desc 'cd ENVIRONMENT', 'Change directory to the project path'
     def cd(environment)
       if switch(environment)
         Dir.chdir `echo #{@repo}`.strip
-        puts "Welcome to the tacoma shell"
+        puts 'Welcome to the tacoma shell'
         shell = ENV['SHELL'].split('/').last
         options =
           case shell
@@ -156,13 +148,13 @@ module Tacoma
       end
     end
 
-    desc "install", "Create a sample ~/.tacoma.yml file"
+    desc 'install', 'Create a sample ~/.tacoma.yml file'
     def install
-      if (File.exists?(File.join(Dir.home, ".tacoma.yml")))
+      if File.exist?(File.join(Dir.home, '.tacoma.yml'))
         puts "File ~/.tacoma.yml already present, won't overwrite"
       else
-        template_path=Pathname.new("#{self.class.source_root}/../template/tacoma.yml").realpath.to_s
-        new_path = File.join(Dir.home, ".tacoma.yml")
+        template_path = Pathname.new("#{self.class.source_root}/../template/tacoma.yml").realpath.to_s
+        new_path = File.join(Dir.home, '.tacoma.yml')
         template template_path, new_path
       end
     end
@@ -170,7 +162,5 @@ module Tacoma
     def self.source_root
       File.dirname(__FILE__)
     end
-
   end
-
 end
