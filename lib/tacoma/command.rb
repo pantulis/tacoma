@@ -52,12 +52,8 @@ module Tacoma
 
       def exists?(environment)
         config = Tool.config
-        if config.keys.include?(environment) == false
-          puts "Cannot find #{environment} key, check your YAML config file"
-          return false
-        else
-          return true
-        end
+        return true if config.keys.include?(environment)
+        puts "Cannot find #{environment} key, check your YAML config file"
       end
     end
   end
@@ -69,7 +65,7 @@ module Tacoma
 
     desc 'list', 'Lists all known AWS environments'
     def list
-      Tool.config.keys.each do |key|
+      Tool.config.each_key do |key|
         puts key
       end
     end
@@ -108,7 +104,7 @@ module Tacoma
 
         # set configurations for tools
         TOOLS.each do |tool, config_path|
-          template_path = Pathname.new("#{self.class.source_root}/../template/#{tool}").realpath.to_s
+          template_path = build_template_path(tool)
           file_path = File.join(Dir.home, config_path)
           template template_path, file_path, force: true
         end
@@ -132,20 +128,20 @@ module Tacoma
 
     desc 'cd ENVIRONMENT', 'Change directory to the project path'
     def cd(environment)
-      if switch(environment)
-        Dir.chdir `echo #{@repo}`.strip
-        puts 'Welcome to the tacoma shell'
-        shell = ENV['SHELL'].split('/').last
-        options =
-          case shell
-          when 'zsh'
-            ''
-          else
-            '--login'
-          end
-        system("#{shell} #{options}")
-        Process.kill(:SIGQUIT, Process.getpgid(Process.ppid))
-      end
+      return unless switch(environment)
+
+      Dir.chdir `echo #{@repo}`.strip
+      puts 'Welcome to the tacoma shell'
+      shell = ENV['SHELL'].split('/').last
+      options =
+        case shell
+        when 'zsh'
+          ''
+        else
+          '--login'
+        end
+      system("#{shell} #{options}")
+      Process.kill(:SIGQUIT, Process.getpgid(Process.ppid))
     end
 
     desc 'install', 'Create a sample ~/.tacoma.yml file'
@@ -153,10 +149,14 @@ module Tacoma
       if File.exist?(File.join(Dir.home, '.tacoma.yml'))
         puts "File ~/.tacoma.yml already present, won't overwrite"
       else
-        template_path = Pathname.new("#{self.class.source_root}/../template/tacoma.yml").realpath.to_s
+        template_path = build_template_path('tacoma.yml')
         new_path = File.join(Dir.home, '.tacoma.yml')
         template template_path, new_path
       end
+    end
+
+    def build_template_path(template_name)
+      "#{self.class.source_root}/../template/#{template_name}".realpath.to_s
     end
 
     def self.source_root
