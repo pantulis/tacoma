@@ -12,6 +12,7 @@ module Tacoma
       attr_accessor :aws_access_key_id
       attr_accessor :region
       attr_accessor :repo
+      attr_accessor :s3cfg
 
       include CacheEnvironment
 
@@ -29,6 +30,7 @@ module Tacoma
         @aws_access_key_id = config[environment]['aws_access_key_id']
         @region = config[environment]['region'] || DEFAULT_AWS_REGION
         @repo = config[environment]['repo']
+        @s3cfg = config[environment]['s3cfg'] || {}
         validate_vars
       end
 
@@ -101,6 +103,7 @@ module Tacoma
         @aws_access_key_id = Tool.aws_access_key_id
         @region = Tool.region
         @repo = Tool.repo
+        @s3cfg = Tool.s3cfg
 
         # set configurations for tools
         TOOLS.each do |tool, config_path|
@@ -156,7 +159,7 @@ module Tacoma
     end
 
     def build_template_path(template_name)
-      "#{self.class.source_root}/../template/#{template_name}".realpath.to_s
+      "#{self.class.source_root}/../template/#{template_name}".to_s
     end
 
     def self.source_root
