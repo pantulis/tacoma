@@ -159,7 +159,7 @@ module Tacoma
     end
 
     def build_template_path(template_name)
-      "#{self.class.source_root}/../template/#{template_name}".to_s
+      "#{self.class.source_root}/../template/#{template_name}".realpath.to_s
     end
 
     def self.source_root
