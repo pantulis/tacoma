@@ -1,5 +1,5 @@
 [default]
-access_key = <%= @s3cfg['access_key'] || @aws_access_key_id %>
+access_key = <%= @aws_access_key_id %>
 bucket_location = <%= @s3cfg['bucket_location'] || 'US' %>
 cloudfront_host = <%= @s3cfg['cloudfront_host'] || 'cloudfront.amazonaws.com' %>
 cloudfront_resource = <%= @s3cfg['cloudfront_resource'] || '/2010-07-15/distribution' %>
@@ -28,7 +28,7 @@ proxy_port = <%= @s3cfg['proxy_port'] || '0' %>
 recursive = <%= @s3cfg['recursive'] || 'False' %>
 recv_chunk = <%= @s3cfg['recv_chunk'] || '4096' %>
 reduced_redundancy = <%= @s3cfg['reduced_redundancy'] || 'False' %>
-secret_key = <%= @s3cfg['secret_key'] || @aws_secret_access_key %>
+secret_key = <%= @aws_secret_access_key %>
 send_chunk = <%= @s3cfg['send_chunk'] || '4096' %>
 simpledb_host = <%= @s3cfg['simpledb_host'] || 'sdb.amazonaws.com' %>
 skip_existing = <%= @s3cfg['skip_existing'] || 'False' %>
