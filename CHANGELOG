@@ -1,3 +1,6 @@
+1.0.14
+    - New subsection in tacoma.yml file, allowing to define settings for s3cmd on a per-project basis.  See the
+      README for more info
 1.0.11
 	- Current tacoma environment gets cached in $HOME/.tacoma_current_environment
 1.0.10
