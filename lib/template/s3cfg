@@ -1,38 +1,38 @@
 [default]
 access_key = <%= @aws_access_key_id %>
-bucket_location = US
-cloudfront_host = cloudfront.amazonaws.com
-cloudfront_resource = /2010-07-15/distribution
-default_mime_type = binary/octet-stream
-delete_removed = False
-dry_run = False
-encoding = UTF-8
-encrypt = False
-follow_symlinks = False
-force = False
-get_continue = False
-gpg_command = None
-gpg_decrypt = %(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
-gpg_encrypt = %(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s
-gpg_passphrase = 
-guess_mime_type = True
-host_base = s3.amazonaws.com
-host_bucket = %(bucket)s.s3.amazonaws.com
-human_readable_sizes = False
-list_md5 = False
-log_target_prefix = 
-preserve_attrs = True
-progress_meter = True
-proxy_host = 
-proxy_port = 0
-recursive = False
-recv_chunk = 4096
-reduced_redundancy = False
+bucket_location = <%= @s3cfg['bucket_location'] || 'US' %>
+cloudfront_host = <%= @s3cfg['cloudfront_host'] || 'cloudfront.amazonaws.com' %>
+cloudfront_resource = <%= @s3cfg['cloudfront_resource'] || '/2010-07-15/distribution' %>
+default_mime_type = <%= @s3cfg['default_mime_type'] || 'binary/octet-stream' %>
+delete_removed = <%= @s3cfg['delete_removed'] || 'False' %>
+dry_run = <%= @s3cfg['dry_run'] || 'False' %>
+encoding = <%= @s3cfg['encoding'] || 'UTF-8' %>
+encrypt = <%= @s3cfg['encrypt'] || 'False' %>
+follow_symlinks = <%= @s3cfg['follow_symlinks'] || 'False' %>
+force = <%= @s3cfg['force'] || 'False' %>
+get_continue = <%= @s3cfg['get_continue'] || 'False' %>
+gpg_command = <%= @s3cfg['gpg_command'] || 'None' %>
+gpg_decrypt = <%= @s3cfg['gpg_decrypt'] || '%(gpg_command)s -d --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s' %>
+gpg_encrypt = <%= @s3cfg['gpg_encrypt'] || '%(gpg_command)s -c --verbose --no-use-agent --batch --yes --passphrase-fd %(passphrase_fd)s -o %(output_file)s %(input_file)s' %>
+gpg_passphrase = <%= @s3cfg['gpg_passphrase'] || '' %>
+guess_mime_type = <%= @s3cfg['guess_mime_type'] || 'True' %>
+host_base = <%= @s3cfg['host_base'] || 's3.amazonaws.com' %>
+host_bucket = <%= @s3cfg['host_bucket'] || '%(bucket)s.s3.amazonaws.com' %>
+human_readable_sizes = <%= @s3cfg['human_readable_sizes'] || 'False' %>
+list_md5 = <%= @s3cfg['list_md5'] || 'False' %>
+log_target_prefix = <%= @s3cfg['log_target_prefix'] || '' %>
+preserve_attrs = <%= @s3cfg['preserve_attrs'] || 'True' %>
+progress_meter = <%= @s3cfg['progress_meter'] || 'True' %>
+proxy_host = <%= @s3cfg['proxy_host'] || '' %>
+proxy_port = <%= @s3cfg['proxy_port'] || '0' %>
+recursive = <%= @s3cfg['recursive'] || 'False' %>
+recv_chunk = <%= @s3cfg['recv_chunk'] || '4096' %>
+reduced_redundancy = <%= @s3cfg['reduced_redundancy'] || 'False' %>
 secret_key = <%= @aws_secret_access_key %>
-send_chunk = 4096
-simpledb_host = sdb.amazonaws.com
-skip_existing = False
-socket_timeout = 300
-urlencoding_mode = normal
-use_https = False
-verbosity = WARNING
+send_chunk = <%= @s3cfg['send_chunk'] || '4096' %>
+simpledb_host = <%= @s3cfg['simpledb_host'] || 'sdb.amazonaws.com' %>
+skip_existing = <%= @s3cfg['skip_existing'] || 'False' %>
+socket_timeout = <%= @s3cfg['socket_timeout'] || '300' %>
+urlencoding_mode = <%= @s3cfg['urlencoding_mode'] || 'normal' %>
+use_https = <%= @s3cfg['use_https'] || 'False' %>
+verbosity = <%= @s3cfg['verbosity'] || 'WARNING' %>

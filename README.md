@@ -13,20 +13,22 @@ Tacoma needs a special file `.tacoma.yml` in your home directory.  It can create
      tacoma install
 
 The format of the `.tacoma.yml` file is pretty straighforward
-
-     project:
-       aws_identity_file: "/path/to/pem/file/my_project.pem"
-       aws_secret_access_key: "YOURSECRETACCESSKEY"
-       aws_access_key_id: "YOURACCESSKEYID"
-       region: "REGION"
-       repo: "$HOME/projects/my_project"
-	 another_project:
-       aws_identity_file: "/path/to/another_pem.pem"
-       aws_secret_access_key: "ANOTHERECRETACCESSKEY"
-       aws_access_key_id: "ANOTHERACCESSKEYID"
-       region: "REGION"
-       repo: "$HOME/projects/another_project"
-
+```yml
+project:
+  aws_identity_file: "/path/to/pem/file/my_project.pem"
+  aws_secret_access_key: "YOURSECRETACCESSKEY"
+  aws_access_key_id: "YOURACCESSKEYID"
+  region: "REGION"
+  repo: "$HOME/projects/my_project"
+another_project:
+  aws_identity_file: "/path/to/another_pem.pem"
+  aws_secret_access_key: "ANOTHERECRETACCESSKEY"
+  aws_access_key_id: "ANOTHERACCESSKEYID"
+  region: "REGION"
+  repo: "$HOME/projects/another_project"
+  s3cfg:
+    gpg_passphrase: my_gpg_passphrase
+```
 Once setup with a file like this, you can run
 
      tacoma list
@@ -50,7 +52,7 @@ Running `tacoma switch` with the `--with-exports` option will also echo shell ex
 Will display the current tacoma version and list all available configuration templates (providers).
 
      tacoma current
-     
+
 Will display the currently active tacoma environment.
 
 If you don't indicate a specific region, tacoma will use the "eu-west-1" region by default.
