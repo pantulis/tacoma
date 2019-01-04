@@ -34,6 +34,14 @@ describe "Tacoma::Tool" do
     expect(subject).to eq(false)
   end
 
+  it "#build_template_path build a absolute path" do
+    allow(Tacoma::Tool).to receive(:config) { tacoma_config }
+    tacoma_command = Tacoma::Command.new
+    subject = tacoma_command.build_template_path("s3cfg")
+    expect(subject).to_not match(/\.\./)
+    expect(subject).to match(/template\/s3cfg/)
+  end
+
   it "#switch to another_project render tools templates" do
     tacoma_command = Tacoma::Command.new
     allow(Tacoma::Tool).to receive(:config) { tacoma_config }

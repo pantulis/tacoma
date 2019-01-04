@@ -162,10 +162,13 @@ module Tacoma
       File.dirname(__FILE__)
     end
 
-    private
-
-    def build_template_path(template_name)
-      "#{self.class.source_root}/../template/#{template_name}"
+    # private
+    no_commands do
+      def build_template_path(template_name)
+        Pathname.new(
+          "#{self.class.source_root}/../template/#{template_name}"
+        ).realpath.to_s
+      end
     end
   end
 end
