@@ -16,7 +16,6 @@ module Tacoma
       attr_accessor :kubernetes_state
       attr_accessor :kubernetes_cluster_name
 
-
       include CacheEnvironment
 
       def config
