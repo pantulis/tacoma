@@ -13,6 +13,8 @@ module Tacoma
       attr_accessor :region
       attr_accessor :repo
       attr_accessor :s3cfg
+      attr_accessor :kubernetes_state
+      attr_accessor :kubernetes_cluster_name
 
       include CacheEnvironment
 
@@ -31,6 +33,8 @@ module Tacoma
         @region = config[environment]['region'] || DEFAULT_AWS_REGION
         @repo = config[environment]['repo']
         @s3cfg = config[environment]['s3cfg'] || {}
+        @kubernetes_state = config[environment]['kubernetes_state']
+        @kubernetes_cluster_name = config[environment]['kubernetes_cluster_name'] 
         validate_vars
       end
 
@@ -119,6 +123,8 @@ module Tacoma
           puts "export AWS_ACCESS_KEY=#{@aws_access_key_id}"
           puts "export AWS_ACCESS_KEY_ID=#{@aws_access_key_id}"
           puts "export AWS_DEFAULT_REGION=#{@region}"
+          puts "export NAME=#{@kubernetes_cluster_name}"
+          puts "export KOPS_STATE_STORE=#{@kubernetes_state}"
         end
 
         update_environment_to_cache(environment)
