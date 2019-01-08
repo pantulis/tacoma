@@ -57,6 +57,16 @@ Will display the currently active tacoma environment.
 
 If you don't indicate a specific region, tacoma will use the "eu-west-1" region by default.
 
+## KOPS
+
+In order to be able to export kops environment variables, add the following to your .tacoma.yml file:
+```yml
+project:
+  kubernetes_cluster_name: "YOUR_K8S_CLUSTER_NAME"
+  kubernetes_state: "s3://YOUR_S3_BUCKET_STATE"
+```
+Currently this only prints the environments ready for scripting with --with-exports option
+
 ## Bash Completion
 
 There's an user contributed script for bash completion feature. To use it simply get from the `/contrib/` path and source it in your bash session (after rbenv gets sourced if it is there)
